@@ -15,8 +15,6 @@ conn_params = {
 }
 
 
-
-
 class RabbitMQScheduler:
     def __init__(self):
         self.host_mq = os.environ.get('RABBITMQ_HOST')
@@ -29,6 +27,13 @@ class RabbitMQScheduler:
             pika.ConnectionParameters(
                 host=self.host_mq, port=self.port_mq, credentials=pika.PlainCredentials(self.user_mq, self.password_mq))
         )
+
+        # # versions without credentials
+        # self.connection = pika.BlockingConnection(
+        #     pika.ConnectionParameters(
+        #         host=self.host_mq, port=self.port_mq)
+        # )
+
 
         self.channel = self.connection.channel()
         self.channel.queue_declare(self.task_queue)
